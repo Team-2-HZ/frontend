@@ -1,14 +1,6 @@
 <template>
   <Radar  
-    :chart-options="chartOptions"
-    :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
+    v-if="loaded" :chart-data="chartData"
   />
 </template>
 
@@ -23,6 +15,43 @@ import {
   RadialLinearScale,
   LineElement
 } from 'chart.js'
+import { locStub } from '@vue/compiler-core';
+
+const dailyNutritionMale = {
+    KCAL: 2500,
+    CARBS: 300,
+    SUGAR: 65,
+    FAT: 95,
+    PROTEIN: 55
+  }
+  const dailyNutritionFemale = {
+    KCAL: 2000,
+    CARBS: 230,
+    SUGAR: 49,
+    FAT: 73,
+    PROTEIN: 45
+  }
+
+async function getDailyNutrition() {
+  const response = await fetch('https://638755cdd9b24b1be3ed676d.mockapi.io/api/v1/nutrition');
+  const data = await response.json();
+  return data[0];
+}
+
+async function getPercentualData() {
+  // should change depending on users gender
+  const nutritionGoals = dailyNutritionMale
+  const data = [];
+  const dailyIntake = await getDailyNutrition();
+  const dailyIntakeKeys = Object.keys(dailyIntake)
+  for (let i = 0; i < dailyIntakeKeys.length; i++) {
+    let key = dailyIntakeKeys[i];
+    const percentage = (dailyIntake[key] / nutritionGoals[key]) * 100;
+    if (!(percentage > 0)) continue;
+    data.push(percentage);
+  }
+  return data;
+}
 
 ChartJS.register(
   Title,
@@ -35,7 +64,7 @@ ChartJS.register(
 
 export default {
   name: 'RadarChart',
-  components: { Radar },  
+  components: { Radar },
   props: {
     chartId: {
       type: String,
@@ -67,41 +96,47 @@ export default {
     return {
       chartData: {
         labels: [
-        'Eating',
-        'Drinking',
-        'Sleeping',
-        'Designing',
-        'Coding',
-        'Cycling',
-        'Running'
+        'KCAL',
+        'CARBS',
+        'SUGAR',
+        'FAT',
+        'PROTEIN',
         ],
         datasets: [
           {
-            label: 'My First dataset',
-            backgroundColor: 'rgba(179,181,198,0.2)',
-            borderColor: 'rgba(179,181,198,1)',
-            pointBackgroundColor: 'rgba(179,181,198,1)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgba(179,181,198,1)',
-            data: [65, 59, 90, 81, 56, 55, 40]
-          },
-          {
-            label: 'My Second dataset',
+            label: "Daily intake",
             backgroundColor: 'rgba(255,99,132,0.2)',
             borderColor: 'rgba(255,99,132,1)',
             pointBackgroundColor: 'rgba(255,99,132,1)',
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(255,99,132,1)',
-            data: [28, 48, 40, 19, 96, 27, 100]
+            data: getPercentualData(),
           }
         ]
       },
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            min: 0,
+            max: 100
+          }
+        }
       },
+    }
+  },
+  async mounted () {
+    this.loaded = false;
+
+    try {
+      const data = await getPercentualData();
+      this.chartData = data;
+
+      this.loaded = true
+    } catch (e) {
+      console.log(e);
     }
   }
 }
