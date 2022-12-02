@@ -22,7 +22,6 @@ import {
   RadialLinearScale,
   LineElement
 } from 'chart.js'
-import { locStub } from '@vue/compiler-core';
 
 const dailyNutritionMale = {
     KCAL: 2500,
@@ -119,6 +118,17 @@ export default {
             pointHoverBorderColor: 'rgba(255,99,132,1)',
             // data: getPercentualData(),
             data: [0, 0, 0, 0, 0]
+          },
+          {
+            label: "Receommended intake",
+            backgroundColor: 'lightblue',
+            borderColor: 'lightblue',
+            pointBackgroundColor: 'lightblue',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'lightblue',
+            // data: getPercentualData(),
+            data: [100, 100, 100, 100, 100]
           }
         ]
       },
@@ -126,10 +136,10 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          r: {
-            min: 0,
-            max: 100
-          }
+          // r: {
+          //   min: 0,
+          //   max: 100
+          // }
         }
       },
     }

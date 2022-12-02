@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
   const dailyNutritionMale = {
     KCAL: 6500,
     CARBS: 300,
@@ -13,7 +13,7 @@
     FAT: 73,
     PROTEIN: 45
   }
-</script>
+</script> -->
 
 <template>
   <div class="card">
