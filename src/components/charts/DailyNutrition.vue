@@ -1,6 +1,13 @@
 <template>
   <Radar  
-    v-if="loaded" :chart-data="chartData"
+    :chart-options="chartOptions"
+    :chart-data="chartData"
+    :chart-id="chartId"
+    :plugins="plugins"
+    :css-classes="cssClasses"
+    :styles="styles"
+    :width="width"
+    :height="height"
   />
 </template>
 
@@ -70,7 +77,6 @@ export default {
       type: String,
       default: 'radar-chart'
     },
-
     width: {
       type: Number,
       default: 600
@@ -111,7 +117,8 @@ export default {
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(255,99,132,1)',
-            data: getPercentualData(),
+            // data: getPercentualData(),
+            data: [0, 0, 0, 0, 0]
           }
         ]
       },
@@ -127,14 +134,13 @@ export default {
       },
     }
   },
+  // Making the diagram load the data async
   async mounted () {
-    this.loaded = false;
-
     try {
       const data = await getPercentualData();
-      this.chartData = data;
-
-      this.loaded = true
+      this.chartData["datasets"][0].data = data;
+      // console.log(this.chartData["datasets"][0].data);
+      this.isLoaded = true
     } catch (e) {
       console.log(e);
     }

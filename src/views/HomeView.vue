@@ -9,6 +9,6 @@ import DailyNutritionVue from '../components/charts/DailyNutrition.vue';
     <h1 class="text-3xl font-bold underline">
       Hello world!
     </h1>
-    <DailyNutritionVue />
+    <DailyNutritionVue v-if="isLoaded" />
   </main>
 </template>
