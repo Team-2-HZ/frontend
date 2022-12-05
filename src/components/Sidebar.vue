@@ -6,11 +6,11 @@
                   <router-link class="nav_link active" to="/"><i class="bi bi-activity"></i></router-link>
                   <router-link class="nav_link" to="/stats"><i class="bi bi-pie-chart-fill"></i></router-link>
                 </div>
-            </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+            </div> <a href="#" class="nav_link"><i class="bi bi-box-arrow-in-right"></i></a>
         </nav>
     </div>
     <!--Container Main start-->
-    <div class="height-100 bg-light">
+    <div class="height-100 bg-light pt-3">
         <RouterView />
     </div>
 </template>

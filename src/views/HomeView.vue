@@ -1,9 +1,9 @@
 <script setup>
-import DailyNutritionVue from '../components/charts/DailyNutrition.vue';
+import DailyNutritionCardVue from '../components/DailyNutritionCard.vue';
 </script>
 
 <template>
   <main>
-    <DailyNutritionVue />
+    <DailyNutritionCardVue />
   </main>
 </template>
