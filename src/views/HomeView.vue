@@ -1,12 +1,9 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import DailyNutritionCardVue from '../components/DailyNutritionCard.vue';
 </script>
 
 <template>
   <main>
-    <TheWelcome />
-    <h1 class="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <DailyNutritionCardVue />
   </main>
 </template>
