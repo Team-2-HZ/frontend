@@ -1,7 +1,7 @@
 <script>
 import DailyNutrition from '../components/charts/DailyNutrition.vue';
 
-const ingredients = [{ type: "Griekse Yoghurt", kcal: 91, fat: 2, carbs: 4.7, sugar:4.7, fibers: 0, protein: 6 }, { type: "Cottage Cheese", kcal: 101, fat: 2, carbs: 4.7, sugar:2.7, fibers: 0, protein: 12 }];
+const ingredients = [{ type: "Griekse Yoghurt", kcal: 91, fat: 2, carbs: 4.7, sugar:4.7, fibers: 0, protein: 6 }, { type: "Cottage Cheese", kcal: 101, fat: 2, carbs: 2.7, sugar:2.7, fibers: 0, protein: 12 }];
 
 export default {
   components: {
@@ -16,15 +16,8 @@ export default {
 </script>
 
 <template lang="pug">
-.container-fluid
-  .row
-    .col
-      .card
-        .card-body
-          .card-title
-            h2 Meals nutrition
-          .card-text
-            DailyNutrition
+.container-fluid.h-100
+  .row.mt-4.h-50
     .col
       .card
         .card-body 
@@ -53,5 +46,25 @@ export default {
                       td {{ingredient.fibers}}
                       td {{ingredient.protein}}
             template(v-else)
-              p Nothing scanned yet for this meal
+              p Nothing scanned yet for this meal 
+  .row.mt-4
+    .col
+      .card
+        .card-body
+          .card-title
+            h2 Meals nutrition
+          .card-text
+            DailyNutrition
+    .col
+      .card 
+        .card-body 
+          .card-text
+            p Nutrition Progress bars
+      .card.mt-2
+        .card-body 
+          .card-text
+            p save meal stuff
+            p 
+    
+    
 </template>

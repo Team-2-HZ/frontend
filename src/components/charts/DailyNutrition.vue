@@ -30,6 +30,7 @@ const dailyNutritionMale = {
     FAT: 95,
     PROTEIN: 55
   }
+  
   const dailyNutritionFemale = {
     KCAL: 2000,
     CARBS: 230,
