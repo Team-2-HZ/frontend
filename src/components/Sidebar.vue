@@ -3,7 +3,8 @@
         <nav class="nav">
             <div>
                 <div class="nav_list">
-                  <router-link class="nav_link active" to="/" data-toggle="tooltip" data-placement="right" title="Current Meal"><i class="bi bi-box"></i></router-link>
+                  <router-link class="nav_link" to="/" data-toggle="tooltip" data-placement="right" title="Dashboard"><i class="bi bi-house"></i></router-link>
+                  <router-link class="nav_link active" to="/meal" data-toggle="tooltip" data-placement="right" title="Current Meal"><i class="bi bi-box"></i></router-link>
                   <router-link class="nav_link" to="/stats" data-toggle="tooltip" data-placement="right" title="Statistics"><i class="bi bi-pie-chart-fill"></i></router-link>
                 </div>
             </div> <router-link to="#" class="nav_link" data-toggle="tooltip" data-placement="right" title="Logout"><i class="bi bi-box-arrow-in-right"></i></router-link>

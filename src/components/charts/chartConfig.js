@@ -8,13 +8,14 @@ export const data = {
     ],
   datasets: [
     {
-      label: 'My Second dataset',
+      label: "Daily intake",
       backgroundColor: 'rgba(255,99,132,0.2)',
+      borderColor: 'rgba(255,99,132,1)',
       pointBackgroundColor: 'rgba(255,99,132,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(255,99,132,1)',
-      data: [28, 48, 39, 96, 100],
+      data: [0, 0, 0, 0, 0]
     },
   ],
 };
@@ -22,5 +23,14 @@ export const data = {
 export const options = {
   responsive: true,
   maintainAspectRatio: false,
-  width: 100
+  scale: {
+    r: {
+      min: 0,
+      max: 100,
+      beginAtZero: true,
+      angleLines: {
+        color: "red",
+     },
+    }
+  }
 };

@@ -117,7 +117,6 @@ export default {
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(255,99,132,1)',
-            // data: getPercentualData(),
             data: [0, 0, 0, 0, 0]
           },
           {
@@ -136,12 +135,6 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
-        scales: {
-          // r: {
-          //   min: 0,
-          //   max: 100
-          // }
-        }
       },
     }
   },
