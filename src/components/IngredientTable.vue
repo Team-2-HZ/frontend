@@ -1,6 +1,6 @@
 <template lang="pug">
 template(v-if="ingredients")
-  table.table
+  table.table.table-hover
     thead
       tr 
         th(scope="col") Ingredient
@@ -13,7 +13,7 @@ template(v-if="ingredients")
         th(scope="col") Protein
     tbody
         tr(v-for="ingredient in ingredients" :key="ingredient.id")
-          th(scope="row") {{ingredient.type}} 
+          td(scope="row") {{ingredient.type}} 
           td {{ingredient.kcal}}
           td {{ingredient.fat}}
           td {{ingredient.sat_fat}}
@@ -26,21 +26,50 @@ template(v-else)
 </template>
 
 <script>
+import { ref, onBeforeUnmount } from 'vue'
+
 async function getIngredients() {
-  const response = await fetch('https://638755cdd9b24b1be3ed676d.mockapi.io/api/v1/activeIngredients');
+  const response = await fetch('https://638755cdd9b24b1be3ed676d.mockapi.io/api/v1/ingredients');
   const data =  await response.json();
-  console.log(data);
   return data;
 }
 
-const ingredients = await getIngredients();
-
 export default {
   components: {},
-  data() {
+  setup() {
+    const count = ref(0);
+    const ingredients = ref([]);
+    let intervalId = null;
+
+    const increment = async () => {
+      count.value++
+      ingredients.value = await getIngredients()
+    }
+
+    increment();
+
+    const startInterval = () => {
+      intervalId = setInterval(() => {
+        increment();
+      }, 5000)
+    }
+
+    const stopInterval = () => {
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+    }
+
+    startInterval();
+
+    onBeforeUnmount(stopInterval);
+
     return {
-      ingredients: ingredients,
+      count,
+      ingredients,
+      increment
     }
   }
 }
+
 </script>

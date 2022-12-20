@@ -60,25 +60,12 @@ import IngredientTable from '../components/IngredientTable.vue';
 //   maintainAspectRatio: false,
 // };
 
-const forceRerender = () => {
-  componentKey.value += 1;
-  console.log(componentKey);
-};
-
-setInterval(() => {
-  forceRerender();
-}, 3000);
 
 export default {
   components: {
     DailyNutrition,
     PolarArea,
     IngredientTable
-  },
-  data() {
-    return {
-      componentKey: 0,
-    }
   }
 }
 </script>
@@ -92,10 +79,10 @@ export default {
           .card-title
             h2 Ingredients
           .card-text
-            IngredientTable(v-bind:key="componentKey")
+            IngredientTable
   .row.mt-4.mb-4
     .col-sm.w-50
-      .card
+      .card.mh-50
         .card-body
           .card-title
             h2 Meals nutrition
