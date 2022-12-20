@@ -7,8 +7,10 @@
         :aria-valuenow="ariaValue"
         aria-valuemin="0" 
         aria-valuemax="100">
-        {{ currentValue }} / {{ targetValue }}</div>
+        </div>
     </div>
+    <div style="position: relative; bottom: 20px; text-align: center;">{{ currentValue }} / {{ targetValue }}</div>
+    
 </template>
 
 <script>
