@@ -18,7 +18,6 @@ import {
   Legend
 } from 'chart.js'
 import { PolarArea } from 'vue-chartjs'
-import * as chartConfig from './chartConfig.js'
 
 const dailyNutritionMale = {
     KCAL: 2500,
@@ -36,17 +35,18 @@ const dailyNutritionMale = {
     PROTEIN: 45
   }
 
-async function getDailyNutrition() {
-  const response = await fetch('https://638755cdd9b24b1be3ed676d.mockapi.io/api/v1/nutrition');
-  const data = await response.json();
-  return data[0];
-}
+  async function getDailyNutrition(apiUrl) {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    return data[0];
+  }
+
 
 async function getPercentualData() {
   // should change depending on users gender
   const nutritionGoals = dailyNutritionMale
   const data : number[] = [];
-  const dailyIntake = await getDailyNutrition();
+  const dailyIntake = await getDailyNutrition(this.apiUrl);
   const dailyIntakeKeys = Object.keys(dailyIntake)
   for (let i = 0; i < dailyIntakeKeys.length; i++) {
     let key = dailyIntakeKeys[i];
@@ -65,6 +65,10 @@ export default {
     PolarArea
   },
   props: {
+    apiUrl: {
+      type: String,
+      required: true
+    },
     chartId: {
       type: String,
       default: 'PolarArea'
@@ -119,7 +123,7 @@ export default {
         scale: {
           r: {
             min: 0,
-            // max: 100,
+            max: 100,
             beginAtZero: true,
             angleLines: {
               color: "red",
@@ -131,14 +135,14 @@ export default {
   },
     // Making the diagram load the data async
     async mounted () {
-    try {
-      const data = await getPercentualData();
-      this.data["datasets"][0].data = data;
-      // console.log(this.chartData["datasets"][0].data);
-      this.isLoaded = true
-    } catch (e) {
-      console.log(e);
+      try {
+        const data = await getPercentualData.bind(this)();
+        this.data["datasets"][0].data = data;
+        // console.log(this.chartData["datasets"][0].data);
+        this.isLoaded = true
+      } catch (e) {
+        console.error(e);
+      }
     }
-  }
 }
 </script>

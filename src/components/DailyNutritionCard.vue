@@ -92,7 +92,7 @@ export default {
       .card.h-100
         .card-body 
           .card-text.h-75
-            PolarArea(:width="450" :height="450")
+            <PolarArea :apiUrl="'https://638755cdd9b24b1be3ed676d.mockapi.io/api/v1/nutrition'" />
           hr
           .card-text
             .align-middle
