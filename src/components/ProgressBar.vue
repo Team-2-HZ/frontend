@@ -1,16 +1,21 @@
 <template>
-    <div class="progress">
-        <div class="progress-bar"
-        :class="color()"
-        role="progressbar" 
-        :style="{ 'width': ariaValue + '%'}" 
-        :aria-valuenow="ariaValue"
-        aria-valuemin="0" 
-        aria-valuemax="100">
+    <div class="progress" style="height: 25px;">
+        <div class="progress-bar" :class="color()" role="progressbar" :style="{ 'width': ariaValue + '%'}"
+            :aria-valuenow="ariaValue" aria-valuemin="0" aria-valuemax="100">
         </div>
     </div>
-    <div style="position: relative; bottom: 20px; text-align: center;">{{ currentValue }} / {{ targetValue }}</div>
-    
+    <!--TODO: It works, but it's a botchy solution. Especially the way I use pixels and percentages for positioning stuff makes it inflexible for re-use in sitautions other than this spefic one.
+    78% - 81.5% is intentional and not a math mistake. I think it has to do with the spacing / kerning of "|" symbol-->
+    <div>
+        <div style="position: relative; bottom: 28px; text-align: center;">{{ currentValue }} / {{ targetValue }} {{
+                unit
+        }}
+            <div style="position: absolute; bottom: -6px; font-weight: bold; font-size: x-large; margin-left: 78%;">|
+            </div>
+            <div style="position: absolute;  bottom: -6px; font-weight: bold; font-size: x-large; margin-left: 81.5%;">|
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -27,12 +32,17 @@ export default {
             required: true,
             default: 100 // TODO: Prevent this from being set to 0. Please never set this to 0.
         },
+        unit: {
+            type: String,
+            required: false,
+            default: ""
+        }
     },
     methods: {
-        color: function() {
+        color: function () {
             // TODO: There's probably a better way of doing this.
-            let lowerLimit = this.targetValue * 0.95;
-            let upperLimit = this.targetValue * 1.05;
+            let lowerLimit = this.targetValue * 0.98;
+            let upperLimit = this.targetValue * 1.02;
             if (this.currentValue < lowerLimit) {
                 console.log('NOT ENOUGH')
                 return "bg-warning"
@@ -47,8 +57,8 @@ export default {
     },
     computed: {
         ariaValue() {
-            return Math.round(this.currentValue / this.targetValue * 100);
-        },        
+            return this.currentValue / this.targetValue * 100 * 0.8;
+        },
     }
 }
 </script>
