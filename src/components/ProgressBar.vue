@@ -1,18 +1,21 @@
 <template>
-    <div class="progress" style="height: 25px;">
-        <div class="progress-bar" :class="color()" role="progressbar" :style="{ 'width': ariaValue + '%'}"
-            :aria-valuenow="ariaValue" aria-valuemin="0" aria-valuemax="100">
+    <div style="display: flex; height: 30px">
+        <div style="width: 6%;">
+            Energy
         </div>
-    </div>
-    <!--TODO: It works, but it's a botchy solution. Especially the way I use pixels and percentages for positioning stuff makes it inflexible for re-use in sitautions other than this spefic one.
-    78% - 81.5% is intentional and not a math mistake. I think it has to do with the spacing / kerning of "|" symbol-->
-    <div>
-        <div style="position: relative; bottom: 28px; text-align: center;">{{ currentValue }} / {{ targetValue }} {{
-                unit
-        }}
-            <div style="position: absolute; bottom: -6px; font-weight: bold; font-size: x-large; margin-left: 78%;">|
+        <div style="width: 100%">
+            <div class="progress" style="height: 25px;">
+                <div class="progress-bar" :class="color()" role="progressbar" :style="{ 'width': ariaValue + '%'}"
+                    :aria-valuenow="ariaValue" aria-valuemin="0" aria-valuemax="100">
+                </div>
             </div>
-            <div style="position: absolute;  bottom: -6px; font-weight: bold; font-size: x-large; margin-left: 81.5%;">|
+            <!--TODO: It works, but it's a botchy solution. Especially the way I use pixels and percentages for positioning stuff makes it inflexible for re-use in sitautions other than this spefic one.
+    78% - 81.5% is intentional and not a math mistake. I think it has to do with the spacing / kerning of "|" symbol-->
+            <div style="height: 0%">
+                <div style="position: relative; bottom: 28px; text-align: center;">{{ currentValue }} / {{ targetValue }} {{ unit }}
+                    <div style="position: absolute; bottom: -6px; font-weight: bold; font-size: x-large; margin-left: 78%;">|</div>
+                    <div style="position: absolute;  bottom: -6px; font-weight: bold; font-size: x-large; margin-left: 81.2%;">|</div>
+                </div>
             </div>
         </div>
     </div>
@@ -32,11 +35,17 @@ export default {
             required: true,
             default: 100 // TODO: Prevent this from being set to 0. Please never set this to 0.
         },
+        label: {
+            type: String,
+            required: false,
+            default: ""
+        },
         unit: {
             type: String,
             required: false,
             default: ""
-        }
+        },
+        
     },
     methods: {
         color: function () {
@@ -45,13 +54,13 @@ export default {
             let upperLimit = this.targetValue * 1.02;
             if (this.currentValue < lowerLimit) {
                 console.log('NOT ENOUGH')
-                return "bg-warning"
+                return "progress-bar-striped bg-warning"
             } else if (this.currentValue >= lowerLimit && this.currentValue <= upperLimit) {
                 console.log('JUST RIGHT')
                 return "bg-success"
             } else {
                 console.log('TOO MUCH')
-                return "bg-danger"
+                return "progress-bar-striped bg-danger"
             }
         }
     },
