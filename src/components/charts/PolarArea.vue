@@ -23,7 +23,9 @@ const dailyNutritionMale = {
     KCAL: 2500,
     CARBS: 300,
     SUGAR: 65,
+    FIBERS: 50,
     FAT: 95,
+    SAT_FATS: 20,
     PROTEIN: 55
   }
   
@@ -101,14 +103,16 @@ export default {
           'KCAL',
           'CARBS',
           'SUGAR',
+          'FIBERS',
           'FAT',
+          'SAT. FAT',
           'PROTEIN',
           ],
         datasets: [
           {
             label: "Daily intake",
             backgroundColor: 'rgba(255,99,132,0.2)',
-            borderColor: 'rgba(255,99,132,1)',
+            borderColor: 'black',
             pointBackgroundColor: 'rgba(255,99,132,1)',
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
@@ -122,12 +126,10 @@ export default {
         maintainAspectRatio: false,
         scale: {
           r: {
-            min: 0,
-            max: 100,
             beginAtZero: true,
             angleLines: {
               color: "red",
-          },
+            }
           }
         }
       }
@@ -139,6 +141,30 @@ export default {
         const data = await getPercentualData.bind(this)();
         this.data["datasets"][0].data = data;
         // console.log(this.chartData["datasets"][0].data);
+        // set the background color based on the data values
+        this.data["datasets"][0].backgroundColor = this.data["datasets"][0].data.map(d => {
+        if (d < 50) {
+          return 'rgba(209, 0, 0)';
+        } if (d < 80) {
+          return 'rgba(250, 132, 22)';
+        } if (d < 100) {
+          return 'rgba(62, 196, 4)';
+        } else {
+          return 'rgba(209, 0, 0)';
+        }
+        });
+        // Set the border color to a slightly darker color then the backgroundColor
+        this.data["datasets"][0].borderColor = this.data["datasets"][0].data.map(d => {
+        if (d < 50) {
+          return 'rgba(100, 0, 0)';
+        } if (d < 80) {
+          return 'rgba(170, 80, 22)';
+        } if (d < 100) {
+          return 'rgba(62, 120, 4)';
+        } if (d < 115) {
+          return 'rgba(100, 0, 0)';
+        }
+        });
         this.isLoaded = true
       } catch (e) {
         console.error(e);
