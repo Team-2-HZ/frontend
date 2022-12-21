@@ -1,9 +1,9 @@
 <template>
     <div style="display: flex; height: 30px">
-        <div style="width: 6%;">
-            Energy
+        <div style="width: 8%;">
+            {{ label }}
         </div>
-        <div style="width: 100%">
+        <div style="width: 92%">
             <div class="progress" style="height: 25px;">
                 <div class="progress-bar" :class="color()" role="progressbar" :style="{ 'width': ariaValue + '%'}"
                     :aria-valuenow="ariaValue" aria-valuemin="0" aria-valuemax="100">
