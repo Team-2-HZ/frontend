@@ -1,27 +1,24 @@
 <template>
-  <Radar  
-    :chart-options="chartOptions"
-    :chart-data="chartData"
+  <PolarArea     
+    :chart-options="options"
+    :chart-data="data"
     :chart-id="chartId"
-    :plugins="plugins"
     :css-classes="cssClasses"
     :styles="styles"
     :width="width"
-    :height="height"
-  />
+    :height="height" />
 </template>
 
-<script>
-import { Radar } from 'vue-chartjs'
+<script lang="ts">
 import {
   Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  PointElement,
   RadialLinearScale,
-  LineElement
+  ArcElement,
+  Tooltip,
+  Legend
 } from 'chart.js'
+import { PolarArea } from 'vue-chartjs'
+import * as chartConfig from './chartConfig.js'
 
 const dailyNutritionMale = {
     KCAL: 2500,
@@ -48,7 +45,7 @@ async function getDailyNutrition() {
 async function getPercentualData() {
   // should change depending on users gender
   const nutritionGoals = dailyNutritionMale
-  const data = [];
+  const data : number[] = [];
   const dailyIntake = await getDailyNutrition();
   const dailyIntakeKeys = Object.keys(dailyIntake)
   for (let i = 0; i < dailyIntakeKeys.length; i++) {
@@ -60,22 +57,17 @@ async function getPercentualData() {
   return data;
 }
 
-ChartJS.register(
-  Title,
-  Tooltip,
-  Legend,
-  PointElement,
-  RadialLinearScale,
-  LineElement
-);
+ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend)
 
 export default {
-  name: 'RadarChart',
-  components: { Radar },
+  name: 'App',
+  components: {
+    PolarArea
+  },
   props: {
     chartId: {
       type: String,
-      default: 'radar-chart'
+      default: 'PolarArea'
     },
     width: {
       type: Number,
@@ -100,14 +92,14 @@ export default {
   },
   data() {
     return {
-      chartData: {
+      data: {
         labels: [
-        'KCAL',
-        'CARBS',
-        'SUGAR',
-        'FAT',
-        'PROTEIN',
-        ],
+          'KCAL',
+          'CARBS',
+          'SUGAR',
+          'FAT',
+          'PROTEIN',
+          ],
         datasets: [
           {
             label: "Daily intake",
@@ -119,30 +111,29 @@ export default {
             pointHoverBorderColor: 'rgba(255,99,132,1)',
             data: [0, 0, 0, 0, 0]
           },
-          {
-            label: "Receommended intake",
-            backgroundColor: 'lightblue',
-            borderColor: 'lightblue',
-            pointBackgroundColor: 'lightblue',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'lightblue',
-            // data: getPercentualData(),
-            data: [100, 100, 100, 100, 100]
-          }
-        ]
+        ],
       },
-      chartOptions: {
+      options: {
         responsive: true,
         maintainAspectRatio: false,
-      },
+        scale: {
+          r: {
+            min: 0,
+            // max: 100,
+            beginAtZero: true,
+            angleLines: {
+              color: "red",
+          },
+          }
+        }
+      }
     }
   },
-  // Making the diagram load the data async
-  async mounted () {
+    // Making the diagram load the data async
+    async mounted () {
     try {
       const data = await getPercentualData();
-      this.chartData["datasets"][0].data = data;
+      this.data["datasets"][0].data = data;
       // console.log(this.chartData["datasets"][0].data);
       this.isLoaded = true
     } catch (e) {
