@@ -87,12 +87,12 @@ export default {
           .card-title
             h2 Meals nutrition
           .card-text
-            DailyNutrition
+          <PolarArea :apiUrl="'https://638755cdd9b24b1be3ed676d.mockapi.io/api/v1/nutrition'" />
     .col-sm.mh-100.w-50
       .card.h-100
         .card-body 
           .card-text.h-75
-            <PolarArea :apiUrl="'https://638755cdd9b24b1be3ed676d.mockapi.io/api/v1/nutrition'" />
+            h1 Progess bar stuff
           hr
           .card-text
             .align-middle
