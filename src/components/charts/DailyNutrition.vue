@@ -123,7 +123,7 @@ export default {
             label: "Receommended intake",
             backgroundColor: 'lightblue',
             borderColor: 'lightblue',
-            pointBackgroundColor: 'lightblue',
+            pointBackgroundColor: 'blue',
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'lightblue',
@@ -135,6 +135,9 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
+        chartArea: {
+          backgroundColor: 'blue'  // Add this line to set the background color for the chart area
+        }
       },
     }
   },
