@@ -18,7 +18,6 @@ import {
   Legend
 } from 'chart.js'
 import { PolarArea } from 'vue-chartjs'
-import * as chroma from 'chroma-js';
 
 const dailyNutritionMale = {
     KCAL: 2500,
