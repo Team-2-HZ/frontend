@@ -18,6 +18,7 @@ import {
   Legend
 } from 'chart.js'
 import { PolarArea } from 'vue-chartjs'
+import * as chroma from 'chroma-js';
 
 const dailyNutritionMale = {
     KCAL: 2500,
@@ -98,6 +99,7 @@ export default {
   },
   data() {
     return {
+      intervalId: null,
       data: {
         labels: [
           'KCAL',
@@ -111,9 +113,17 @@ export default {
         datasets: [
           {
             label: "Daily intake",
-            backgroundColor: 'rgba(255,99,132,0.2)',
-            borderColor: 'black',
-            pointBackgroundColor: 'rgba(255,99,132,1)',
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.5)',
+              'rgba(75, 192, 192, 0.5)',
+              'rgba(255, 206, 86, 0.5)',
+              'rgba(239, 233, 253, 0.5)',
+              'rgba(54, 162, 235, 0.5)',
+              'rgba(204, 204, 204, 0.5)',
+              'rgba(153, 102, 255, 0.5)'
+            ],
+            borderColor: 'white',
+            pointBackgroundColor: 'rgba(255,99,132,0.75)',
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(255,99,132,1)',
@@ -126,6 +136,13 @@ export default {
         maintainAspectRatio: false,
         scale: {
           r: {
+            pointLabels: {
+              display: true,
+              centerPointLabels: true,
+              font: {
+                size: 18
+              }
+            },
             beginAtZero: true,
             angleLines: {
               color: "red",
@@ -135,40 +152,51 @@ export default {
       }
     }
   },
-    // Making the diagram load the data async
-    async mounted () {
+  // Making the diagram load the data async
+  async mounted () {
+    const fetchData = async () => {
       try {
         const data = await getPercentualData.bind(this)();
         this.data["datasets"][0].data = data;
         // console.log(this.chartData["datasets"][0].data);
         // set the background color based on the data values
-        this.data["datasets"][0].backgroundColor = this.data["datasets"][0].data.map(d => {
-        if (d < 50) {
-          return 'rgba(209, 0, 0)';
-        } if (d < 80) {
-          return 'rgba(250, 132, 22)';
-        } if (d < 100) {
-          return 'rgba(62, 196, 4)';
-        } else {
-          return 'rgba(209, 0, 0)';
-        }
-        });
-        // Set the border color to a slightly darker color then the backgroundColor
-        this.data["datasets"][0].borderColor = this.data["datasets"][0].data.map(d => {
-        if (d < 50) {
-          return 'rgba(100, 0, 0)';
-        } if (d < 80) {
-          return 'rgba(170, 80, 22)';
-        } if (d < 100) {
-          return 'rgba(62, 120, 4)';
-        } if (d < 115) {
-          return 'rgba(100, 0, 0)';
-        }
-        });
+        // this.data["datasets"][0].backgroundColor = this.data["datasets"][0].data.map(d => {
+        // if (d < 50) {
+        //   return 'rgba(209, 0, 0)';
+        // } if (d < 80) {
+        //   return 'rgba(250, 132, 22)';
+        // } if (d < 100) {
+        //   return 'rgba(62, 196, 4)';
+        // } else {
+        //   return 'rgba(209, 0, 0)';
+        // }
+        // });
+        // // Set the border color to a slightly darker color then the backgroundColor
+        // this.data["datasets"][0].borderColor = this.data["datasets"][0].data.map(d => {
+        // if (d < 50) {
+        //   return 'rgba(100, 0, 0)';
+        // } if (d < 80) {
+        //   return 'rgba(170, 80, 22)';
+        // } if (d < 100) {
+        //   return 'rgba(62, 120, 4)';
+        // } if (d < 115) {
+        //   return 'rgba(100, 0, 0)';
+        // }
+        // });
         this.isLoaded = true
       } catch (e) {
         console.error(e);
       }
     }
+
+    fetchData();
+
+    this.intervalId = setInterval(async () => {
+      fetchData();
+    }, 5000);
+  },
+  beforeUnmount() {
+    clearInterval(this.intervalId);
+  }
 }
 </script>
